@@ -3,38 +3,37 @@
 <link rel="stylesheet" href="build/main.css" />
 <script src="build/vendor.min.js"></script>
 <script src="build/main.js"></script>
+<script src="build/dragdrop.js"></script>
 
-<main id="heaps" v-on="dragover:dragover, drop:drop($event, lists)">
+<main id="heaps" v-cloak>
   <section class="toolbar">
     <h1>{{name}}</h1>
     <button v-on="click: save()">Save</button>
   </section>
-  <section>
+  <section v-droppable="container: lists">
     <article v-repeat="lists"
-            draggable="true"
-            v-on="dragstart:dragstart($event, lists),
-                  dragend:dragend($event, lists),
-                  dragover:dragover,
-                  dragenter:dragenter($event, lists)">
+             v-draggable="container: lists">
       <h2>
         <span v-on="dblclick: toggleClass($event, 'edit')">{{name}}</span>
         <input type="text" v-model="name"
-                v-on="keyup: toggleClass($event, 'edit') | key enter">
+               v-on="keyup: toggleClass($event, 'edit') | key enter" />
       </h2>
-      <ul droppable="true" v-on="dragover:dragover, drop:drop($event, cards)">
+      <ul v-droppable="container: cards">
         <li v-repeat="card : cards"
-            draggable="true"
-            v-on="dragstart:dragstart($event, cards),
-                  dragend:dragend($event, cards),
-                  dragover:dragover,
-                  dragenter:dragenter($event, cards)">
-          <p>
+            v-draggable="container: cards">
+          <p v-class="card.name? '' : 'edit'">
             <span v-on="dblclick: toggleClass($event, 'edit')"
                   class="{{card.done ? 'done' : ''}}">{{card.name}}</span>
-            <input type="text" v-model="card.name"
-                  v-on="keyup: toggleClass($event, 'edit') | key 13">
+            <textarea v-model="card.name"
+                      v-on="blur: toggleClass($event, 'edit'),
+                            keyup: toggleClass($event, 'edit') | key enter"
+              ></textarea>
+            <button v-on="click: cards.$remove($index)">-</button>
           </p>
-        <p>{{card.desc}}</p>
+          <p>{{card.desc}}</p>
+        </li>
+        <li>
+          <button v-on="click: cards.push({name: ''})">+</button>
         </li>
       </ul>
     </article>
