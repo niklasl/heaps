@@ -12,16 +12,19 @@
     "parallelshell": "~1.0.4",
     "bower-installer": "~1.2.0"
   },
+  "config": {
+    "RUN_BABEL": "babel es/ -x .es6 -m ignore -d build/ --source-root ../ -s"
+  },
   "scripts": {
     "vendor": "npm run vendor:fetch && parallelshell 'npm run vendor:js' 'npm run vendor:css'",
     "vendor:fetch": "bower-installer",
     "vendor:js": "uglifyjs app/vendor/{jquery,vue,dropbox}/js/*.js -o app/build/vendor.min.js --source-map app/build/vendor.min.js.map -p relative",
     "vendor:css": "cleancss app/vendor/*/css/*.css -o app/build/vendor.min.css #--source-map",
     "build": "parallelshell 'npm run build:js' 'npm run build:less'",
-    "build:js": "cd app && babel es/ -x .es6 -d build/ --source-root ../ -s",
+    "build:js": "cd app && $npm_package_config_RUN_BABEL",
     "build:less": "lessc app/less/main.less app/build/main.css --source-map=app/build/main.css.map",
     "watch": "parallelshell 'npm run watch:js' 'npm run watch:less' 'cd app/ && http-server -p 9000'",
-    "watch:js": "cd app && babel es/ -x .es6 -d build/ --source-root ../ -s -w",
+    "watch:js": "cd app && $npm_package_config_RUN_BABEL -w",
     "watch:less": "npm run build:less && chokidar app/less/*.less -c 'npm run build:less'"
   }
 }
