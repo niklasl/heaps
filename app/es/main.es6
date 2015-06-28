@@ -56,17 +56,21 @@ function initVue(data) {
           }
           console.log(`Saved ${indexFile}`, stat)
         })
-      },
-
-      toggleClass(event, cls) {
-        let el = event.target.parentNode
-        el.classList.toggle(cls)
       }
 
     }
   })
 }
 
+Vue.component('editable-item', {
+  template: '#editable-item',
+  methods: {
+    toggleClass(event, cls) {
+      let el = event.target.parentNode
+      el.classList.toggle(cls)
+    }
+  }
+})
 
 let dummyClient = {
   authenticate(cb) {
@@ -76,7 +80,7 @@ let dummyClient = {
     cb(null, {})
   },
   readFile(path, cb) {
-    $.ajax("data/tasks.json", {dataType: 'text'}).
+    $.ajax(`data/dummy/${path}`, {dataType: 'text'}).
       done(data => cb(null, data))
   },
   writeFile(path, data, cb) {

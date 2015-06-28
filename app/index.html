@@ -11,31 +11,33 @@
     <button v-on="click: save()">Save</button>
   </section>
   <section v-droppable="container: lists">
-    <article v-repeat="lists"
+    <article v-repeat="list : lists"
              v-draggable="container: lists">
-      <h2>
-        <span v-on="dblclick: toggleClass($event, 'edit')">{{name}}</span>
-        <input type="text" v-model="name"
-               v-on="keyup: toggleClass($event, 'edit') | key enter" />
+      <h2 v-component="editable-item" v-with="list">
       </h2>
-      <ul v-droppable="container: cards">
-        <li v-repeat="card : cards"
-            v-draggable="container: cards">
-          <p v-class="card.name? '' : 'edit'">
-            <span v-on="dblclick: toggleClass($event, 'edit')"
-                  class="{{card.done ? 'done' : ''}}">{{card.name}}</span>
-            <textarea v-model="card.name"
-                      v-on="blur: toggleClass($event, 'edit'),
-                            keyup: toggleClass($event, 'edit') | key enter"
-              ></textarea>
-            <button v-on="click: cards.$remove($index)">-</button>
+      <ul v-droppable="container: list.cards">
+        <li v-repeat="card : list.cards"
+            v-draggable="container: list.cards">
+          <p v-class="card.name? '' : 'edit'"
+             v-component="editable-item" v-with="card">
+            <button v-on="click: list.cards.$remove($index)">-</button>
           </p>
           <p>{{card.desc}}</p>
         </li>
         <li>
-          <button v-on="click: cards.push({name: ''})">+</button>
+          <button v-on="click: list.cards.push({name: ''})">+</button>
         </li>
       </ul>
     </article>
   </section>
 </main>
+
+<template id="editable-item">
+  <span v-on="dblclick: toggleClass($event, 'edit')"
+        class="{{done ? 'done' : ''}}">{{name}}</span>
+  <textarea v-model="name"
+            v-on="blur: toggleClass($event, 'edit'),
+                  keyup: toggleClass($event, 'edit') | key enter"
+    ></textarea>
+  <content></content>
+</template>
