@@ -1,0 +1,44 @@
+{
+  "name": "Example",
+  "lists": [
+    {
+      "name": "Creativity",
+      "cards": [
+        {"name": "Make application saving to Dropbox"},
+        {"name": "Build a game"},
+        {"name": "Paint a picture"},
+        {"name": "Write on my blog"}
+      ]
+    },
+    {
+      "name": "Community",
+      "cards": [
+        {"name": "Fix bugs in favorite libraries"},
+        {"name": "Publish my example applications"},
+        {
+          "name": "Discuss data models",
+          "desc": "in particular:\n - model\n- instance"
+        }
+      ]
+    },
+    {
+      "name": "Work",
+      "cards": [
+        {"name": "Create the presentation"},
+        {"name": "Update the devops process"},
+        {"name": "Refresh our open data"},
+        {"name": "Refactor the data layer"},
+        {"name": "Prepare for the autumn conference"},
+        {"name": "Link our repositories"}
+      ]
+    },
+    {
+      "name": "Home",
+      "cards": [
+        {"name": "Backup my data"},
+        {"name": "Cook my dinner"},
+        {"name": "Clean out my cabinet"}
+      ]
+    }
+  ]
+}
