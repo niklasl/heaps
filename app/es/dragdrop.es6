@@ -56,7 +56,9 @@ Vue.directive('draggable', {
 
   dragend(event) {
     if (dragState) {
-      dragState.placeholder.parentNode.removeChild(dragState.placeholder)
+      if (dragState.placeholder.parentNode) {
+        dragState.placeholder.parentNode.removeChild(dragState.placeholder)
+      }
       this.el.classList.remove('dragging')
     }
     dragState = null
